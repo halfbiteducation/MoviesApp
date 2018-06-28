@@ -8,6 +8,7 @@ public class Movie {
     String title;
     int id;
     String poster_path;
+    String overview;
 
     public String getTitle() {
         return title;
@@ -31,5 +32,13 @@ public class Movie {
 
     public void setPoster_path(String poster_path) {
         this.poster_path = poster_path;
+    }
+
+    public String getOverview() {
+        return overview;
+    }
+
+    public void setOverview(String overview) {
+        this.overview = overview;
     }
 }

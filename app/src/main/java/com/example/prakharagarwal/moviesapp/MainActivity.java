@@ -86,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
                 movie.setId(movieJson.getInt("id"));
                 movie.setPoster_path(movieJson.getString("poster_path"));
                 movie.setTitle(movieJson.getString("title"));
+                movie.setOverview(movieJson.getString("overview"));
                 bollywoodMovieList.add(movie);
             }
             bollywoodAdapter.notifyDataSetChanged();
@@ -135,6 +136,7 @@ public class MainActivity extends AppCompatActivity {
                 movie.setId(movieJson.getInt("id"));
                 movie.setPoster_path(movieJson.getString("poster_path"));
                 movie.setTitle(movieJson.getString("title"));
+                movie.setOverview(movieJson.getString("overview"));
                 movieList.add(movie);
             }
             adapter.notifyDataSetChanged();
