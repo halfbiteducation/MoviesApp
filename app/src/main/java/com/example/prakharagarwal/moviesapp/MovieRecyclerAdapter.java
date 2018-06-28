@@ -1,6 +1,7 @@
 package com.example.prakharagarwal.moviesapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -51,7 +52,7 @@ public class MovieRecyclerAdapter extends RecyclerView.Adapter<MovieRecyclerAdap
         return moviesList.size();
     }
 
-    public class MovieViewHolder extends RecyclerView.ViewHolder{
+    public class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         ImageView poster;
         TextView title;
@@ -59,6 +60,16 @@ public class MovieRecyclerAdapter extends RecyclerView.Adapter<MovieRecyclerAdap
             super(itemView);
             poster=itemView.findViewById(R.id.image_poster);
             title= itemView.findViewById(R.id.title);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            Intent intent=new Intent(context,DetailActivity.class);
+            intent.putExtra("title",moviesList.get(getAdapterPosition()).getTitle());
+            intent.putExtra("overview",moviesList.get(getAdapterPosition()).getOverview());
+            intent.putExtra("movieId",moviesList.get(getAdapterPosition()).getId());
+            context.startActivity(intent);
         }
     }
 }
