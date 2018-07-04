@@ -1,11 +1,19 @@
 package com.example.prakharagarwal.moviesapp;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -29,10 +37,15 @@ public class MainActivity extends AppCompatActivity {
     List<Movie> bollywoodMovieList=new ArrayList<>();
     MovieRecyclerAdapter adapter;
     MovieRecyclerAdapter bollywoodAdapter;
+    TextView showHide;
+    boolean showHideFlag=false;
+    ImageView arrow;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
 
         adapter=new MovieRecyclerAdapter(this,movieList);
         recyclerView=findViewById(R.id.recyclerview);
@@ -45,6 +58,65 @@ public class MainActivity extends AppCompatActivity {
         recyclerView2.setAdapter(bollywoodAdapter);
         getMovieData();
         getBollywoodData();
+        showHide=findViewById(R.id.bollywood_text_show);
+        arrow=findViewById(R.id.image_arrow);
+        recyclerView2.setVisibility(View.GONE);
+        showHide.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(showHideFlag)
+                    fadeHide();
+                else
+
+                fadeShow();
+            }
+        });
+    }
+
+    private void fadeHide() {
+
+        recyclerView2.animate().alpha(0f)
+                .setDuration(2000)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        recyclerView2.setVisibility(View.GONE);
+                    }
+                });
+        showHide.setText("Show");
+        showHideFlag=false;
+
+    }
+
+    private void fadeShow() {
+        recyclerView2.setAlpha(0f);
+        recyclerView2.setVisibility(View.VISIBLE);
+
+        recyclerView2.animate().alpha(1f)
+                .setDuration(2000)
+                .setListener(null);
+        showHide.setText("Hide");
+        showHideFlag=true;
+//        AnimationDrawable drawable= (AnimationDrawable) arrow.getBackground();
+//        drawable.start();
+        Animation startRotateAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_anim);
+        arrow.startAnimation(startRotateAnimation);
+        startRotateAnimation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                arrow.setRotation(180);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
     }
 
     private void getBollywoodData() {

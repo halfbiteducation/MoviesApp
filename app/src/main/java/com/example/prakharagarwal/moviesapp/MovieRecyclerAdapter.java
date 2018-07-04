@@ -1,8 +1,13 @@
 package com.example.prakharagarwal.moviesapp;
 
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,6 +61,7 @@ public class MovieRecyclerAdapter extends RecyclerView.Adapter<MovieRecyclerAdap
 
         ImageView poster;
         TextView title;
+
         public MovieViewHolder(View itemView) {
             super(itemView);
             poster=itemView.findViewById(R.id.image_poster);
@@ -69,7 +75,21 @@ public class MovieRecyclerAdapter extends RecyclerView.Adapter<MovieRecyclerAdap
             intent.putExtra("title",moviesList.get(getAdapterPosition()).getTitle());
             intent.putExtra("overview",moviesList.get(getAdapterPosition()).getOverview());
             intent.putExtra("movieId",moviesList.get(getAdapterPosition()).getId());
-            context.startActivity(intent);
+
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context,view.findViewById(R.id.image_poster),
+                        "text_transition");
+                Bundle bundle = ActivityOptionsCompat.makeCustomAnimation(context,
+                        android.R.anim.slide_in_left, android.R.anim.slide_out_right).toBundle();
+                context.startActivity(intent,bundle);
+
+
+
+            }else{
+                context.startActivity(intent);
+
+            }
+
         }
     }
 }
